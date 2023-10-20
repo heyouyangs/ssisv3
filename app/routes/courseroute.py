@@ -24,3 +24,21 @@ def addcourse():
         add_courses(coursecode, coursename, collegecode)
         return redirect('/courses/') 
     return render_template('addcourses.html')
+
+@course_bp.route('/courses/search', methods=['GET', 'POST'])
+def search_courses():
+    courses = []
+    if request.method == 'POST':
+        search_query = request.form.get('coursessearch')
+        if search_query:
+            courses = find_courses(search_query)
+
+
+
+@course_bp.route('/courses/delete/<string:course_code>', methods=['DELETE'])
+def remove_course(course_code):
+    if request.method == 'DELETE':
+        delete_course(course_code)
+        return jsonify({'success': True})
+
+

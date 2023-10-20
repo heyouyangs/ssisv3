@@ -17,3 +17,23 @@ def addcolleges():
         add_college(collegecode, collegename)
         return redirect('/colleges/') 
     return render_template('addcolleges.html')
+
+@college_bp.route('/colleges/search', methods=['GET', 'POST'])
+def search_college():
+    colleges = []
+    if request.method == 'POST':
+        search_query = request.form.get('collegesearch')
+        if search_query:
+            colleges = find_college(search_query)
+    return render_template('colleges.html', colleges=colleges)
+
+@college_bp.route('/colleges/delete/<string:college_code>', methods=['DELETE'])
+def remove_college(college_code):
+    if request.method == 'DELETE':
+        delete_college(college_code)
+        return jsonify({'success': True})
+
+
+
+
+

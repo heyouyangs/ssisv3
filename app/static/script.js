@@ -45,14 +45,111 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 })
+fetch(`/colleges/delete/${college_code}`, {
+    method: 'DELETE',
+    headers: {
+        'X-CSRFToken': csrfToken
+    }
+})
 
+function deleteCollege(button) {
+    console.log("Delete button clicked.");
+    var college_code = button.getAttribute('college-code');
+    var csrfToken = button.getAttribute('csrf-token');
+    if (confirm("Are you sure you want to delete this college?\nStudents and Courses under this College will also be deleted.")) {
+        fetch(`/colleges/delete/${college_code}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success === true) {
+                window.location.reload();
+            } else {
+                console.error("Error: " + data.error);
+            }
+        });
+    }
+}
+fetch(`/students/delete/${student_id}`, {
+    method: 'DELETE',
+    headers: {
+        'X-CSRFToken': csrfToken
+    }
+})
 
+function deleteStudent(button) {
+    console.log("Delete button clicked.");
+    var student_id = button.getAttribute('student-id');
+    var csrfToken = button.getAttribute('csrf-token');
+    if (confirm("Are you sure you want to delete this student?")) {
+        fetch(`/students/delete/${student_id}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success === true) {
+                window.location.reload();
+            } else {
+                console.error("Error: " + data.error);
+            }
+        });
+    }
+}
+fetch(`/courses/delete/${course_code}`, {
+    method: 'DELETE',
+    headers: {
+        'X-CSRFToken': csrfToken
+    }
+})
 
+function deleteCourses(button) {
+    console.log("Delete button clicked.");
+    
+    // Retrieve course code and CSRF token from data attributes
+    var course_code = button.getAttribute('data-course-code');
+    var csrfToken = button.getAttribute('data-csrf-token');
+    
+    if (confirm("Are you sure you want to delete this course?\nThis action cannot be undone.")) {
+        fetch(`/courses/delete/${course_code}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success === true) {
+                window.location.reload();
+            } else {
+                console.error("Error: " + data.error);
+            }
+        });
+    }
+}
 
+document.addEventListener('DOMContentLoaded', function () {
+    var editStudentModal = document.getElementById('editStudentModal');
+    var openEditStudentModalButton = document.getElementById('openEditStudentModalButton');
+    var closeEditStudentModal = document.getElementById('closeEditStudentModal');
+  
+    openEditStudentModalButton.onclick = function () {
+      editStudentModal.style.display = 'block';
+    };
+  
+    closeEditStudentModal.onclick = function () {
+      editStudentModal.style.display = 'none';
+    };
+  
+    window.onclick = function (event) {
+      if (event.target === editStudentModal) {
+        editStudentModal.style.display = 'none';
+      }
+    };
+  });
+  
 
-
-
-
-
-
-;
+  

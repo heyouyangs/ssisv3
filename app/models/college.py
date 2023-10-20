@@ -16,7 +16,18 @@ def add_college(collegecode, collegename):
     mysql.connection.commit()
     cursor.close()
 
-def delete_college():
-    cursor = mysql.connection,cursor()
-    query = "DELETE FROM students WHERE id = %s"
-    
+
+def find_college(searchcollege):
+    cursor = mysql.connection.cursor(dictionary=True)
+    search_query = "%" + searchcollege + "%"
+    cursor.execute("SELECT * FROM colleges WHERE collegecode LIKE %s OR collegename LIKE %s", (search_query, search_query))
+    colleges = cursor.fetchall()
+    cursor.close()
+    return colleges
+
+
+def delete_college(college_code):
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM colleges WHERE collegecode = %s", (college_code,))
+    mysql.connection.commit()
+    cursor.close()
