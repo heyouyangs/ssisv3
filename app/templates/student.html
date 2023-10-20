@@ -47,9 +47,19 @@
               <td>{{student.gender}}</td>
               <td>{{student.coursecode}}</td>
               <td>{{student.yearlevel}}</td>
-              <td><a href="/editstunt"  button class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Edit</button></td>
+              <td>
+                <form action="/editstudent" method="get">
+                  <input type="hidden" name="student_id" value="{{ student.id }}">
+                  <input type="hidden" name="first_name" value="{{ student.firstname }}">
+                  <input type="hidden" name="last_name" value="{{ student.lastname }}">
+                  <input type="hidden" name="course_code" value="{{ student.coursecode }}">
+                  <input type="hidden" name="year_level" value="{{ student.yearlevel }}">
+                  <input type="hidden" name="gender" value="{{ student.gender }}">
+                  <button type="submit" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Edit</button>
+                </form>
+              </td>
               <td><button type="button" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover-bg-blue-700 focus:outline-none focus:shadow-outline"
-                id="deleteStudent" student-id="{{ student.id }}" csrf-token="{{ csrf_token() }}" onclick="deleteStudent(this)">
+                id="delete_student" student-id="{{ student.id }}" csrf-token="{{ csrf_token() }}" onclick="deleteStudent(this)">
                    Delete
               </button>
     

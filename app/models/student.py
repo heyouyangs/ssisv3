@@ -1,4 +1,5 @@
 from flask_mysql_connector import MySQL
+from flask import Flask, request, render_template, redirect
 
 mysql = MySQL()
 
@@ -31,3 +32,32 @@ def delete_student(student_id):
     mysql.connection.commit()
     cursor.close()
 
+
+def edit_student_student(student_id, first_name, last_name,  year_level, course_code, gender):
+    cursor = mysql.connection.cursor()
+    update_query = "UPDATE students SET firstname = %s, lastname = %s, coursecode = %s, yearlevel = %s, gender = %s WHERE id = %s"
+    cursor.execute(update_query, (first_name, last_name,  year_level, course_code, gender, student_id))
+    mysql.connection.commit()
+    cursor.close()
+
+def remove_student(student_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM students WHERE id = %s", (student_id,))
+    mysql.connection.commit()
+    cursor.close()
+    
+def get_course_codes():
+    cursor = mysql.connection.cursor(dictionary=True)
+    query = "SELECT coursecode FROM courses"
+    cursor.execute(query)
+    course_code = cursor.fetchall()
+    cursor.close()
+    return course_code
+
+def update_student(student_id, first_name, last_name, year_level, course_code, gender):
+    print(student_id, first_name, last_name, year_level, course_code, gender)
+    cursor = mysql.connection.cursor()
+    update_query = "UPDATE students SET firstname = %s, lastname = %s, coursecode = %s, yearlevel = %s, gender = %s WHERE id = %s"
+    cursor.execute(update_query, (first_name, last_name, course_code, year_level, gender, student_id))
+    mysql.connection.commit()
+    cursor.close()
