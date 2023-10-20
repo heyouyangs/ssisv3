@@ -46,12 +46,18 @@
           <td>{{course.coursecode}}</td>
           <td>{{course.coursename}}</td>
           <td>{{course.collegecode}}</td>
-          <td><button class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Edit</button></td>
           <td>
-            <button type="button" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover-bg-blue-700 focus:outline-none focus:shadow-outline"
-              data-course-code="{{ course.coursecode }}" data-csrf-token="{{ csrf_token() }}" onclick="deleteCourses(this)">
-              Delete
-            </button>
+            <form action="/editcourse" method="get">
+              <input type="hidden" name="course_code" value="{{ course.coursecode }}">
+              <input type="hidden" name="course_name" value="{{ course.coursename }}">
+              <input type="hidden" name="college_code" value="{{ course.collegecode }}">
+              <button type="submit" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Edit</button>
+            </form>
+          </td>
+          <td><button type="button" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover-bg-blue-700 focus:outline-none focus:shadow-outline"
+            id="delete_course" coursecode="{{ course.coursecode }}" csrf-token="{{ csrf_token() }}" onclick="deleteCourses(this)">
+               Delete
+          </button>
 
           </td>
         {% endfor %}    

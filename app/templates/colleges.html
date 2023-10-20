@@ -44,13 +44,19 @@
         <tr>
           <td>{{college.collegecode}}</td>
           <td>{{college.collegename}}</td>
-          <td><button class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Edit</button></td>
+          
           <td>
-            <button type="button" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover-bg-blue-700 focus:outline-none focus:shadow-outline"
-        id="deleteCollege" college-code="{{ college.collegecode }}" csrf-token="{{ csrf_token() }}" onclick="deleteCollege(this)">
-      Delete
-  </button>
-
+            <form action="/editcollege" method="get">
+              <input type="hidden" name="college_code" value="{{ college.collegecode }}">
+              <input type="hidden" name="college_name" value="{{ college.collegename }}">
+              
+              <button type="submit" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Edit</button>
+            </form>
+          </td>
+          <td><button type="button" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover-bg-blue-700 focus:outline-none focus:shadow-outline"
+            id="delete_college" coursecode="{{ college.collegecode }}" csrf-token="{{ csrf_token() }}" onclick="deleteColleges(this)">
+               Delete
+          </button>
           </td>
           
         </tr>

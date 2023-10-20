@@ -33,7 +33,20 @@ def remove_college(college_code):
         delete_college(college_code)
         return jsonify({'success': True})
 
+@college_bp.route('/editcollege', methods=['GET', 'POST'])
+def edit_college():
+    if request.method == 'POST':
+        college_code = request.form.get('college_code').upper()
+        college_name = request.form.get('college_name')
+        
+        update_college(college_code, college_name)
+        return redirect('/colleges/') 
+    college_code = request.args.get('college_code')
+    college_name = request.args.get('college_name')
+    return render_template('editcolleges.html', college_code=college_code, college_name=college_name)
 
+
+    
 
 
 
