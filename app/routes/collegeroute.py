@@ -46,7 +46,5 @@ def edit_college():
     return render_template('editcolleges.html', college_code=college_code, college_name=college_name)
 
 
-    
-
 
 

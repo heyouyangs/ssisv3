@@ -54,9 +54,9 @@
             </form>
           </td>
           <td><button type="button" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover-bg-blue-700 focus:outline-none focus:shadow-outline"
-            id="delete_college" coursecode="{{ college.collegecode }}" csrf-token="{{ csrf_token() }}" onclick="deleteColleges(this)">
+            college-code="{{ college.collegecode }}" csrf-token="{{ csrf_token() }}" onclick="deleteCollege(this)">
                Delete
-          </button>
+    </button>
           </td>
           
         </tr>
