@@ -95,29 +95,43 @@
                                         <input class="px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="last_name" type="text" placeholder="Last Name" name="last_name" value="{{ last_name }}" required />
                                     </div>
                                 </div>
-                                <div class="mb-4 md:flex md:justify-between">
-                                    <div class="mb-4 md:mr-2 md:mb-0">
-                                        <label class="block mb-2 text-sm font-bold text-gray-700">
-                                            Gender
-                                        </label>
-                                        <input class="px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="gender" type="text" placeholder="Gender" name="gender" value="{{ gender }}" required />
-                                    </div>
-                                </div>
-                                <div class="mb-2">
+                                <div class="mb-4 md:flex">
+                                  <div class="flex-1 mb-4 md:mr-2 md:mb-0">
+                                      <label class="block mb-2 text-sm font-bold text-gray-700" for="gender">
+                                          Gender
+                                      </label>
+                                      <select class="px-10 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="gender" name="gender">
+                                          <option value="Female" {% if gender == 'Female' %}selected{% endif %}>Female</option>
+                                          <option value="Male" {% if gender == 'Male' %}selected{% endif %}>Male</option>
+                                      </select>
+                                  </div>
+                                  
+                                  <div class="flex-1 mb-4 md:mr-2 md:mb-0">
                                     <label class="block mb-2 text-sm font-bold text-gray-700" for="yearlevel">
                                         Year
                                     </label>
-                                    <input class="px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="year_level" type="text" placeholder="Year" name="year_level" value="{{ year_level }}" required />
+                                    <select class="px-10 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="year_level" name="year_level" required>
+                                        <option value="1" {% if year_level == '1' %}selected{% endif %}>1st</option>
+                                        <option value="2" {% if year_level == '2' %}selected{% endif %}>2nd</option>
+                                        <option value="3" {% if year_level == '3' %}selected{% endif %}>3rd</option>
+                                        <option value="4" {% if year_level == '4' %}selected{% endif %}>4th</option>
+                                    </select>
                                 </div>
-                                <div class="md:mb-2">
-                                    <label class="block mb-2 text-sm font-bold text-gray-700" for="coursecode">
-                                        Coursecode
-                                    </label>
-                                    <input class="px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="course_code" type="text" placeholder="BSCS" name="course_code" value="{{ course_code }}" required />
-                                </div>
-                                <div class="my-4 text-center">
-                                    <button class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit">Edit Student</button>
-                                </div>
+                              </div>
+                              
+                              <div class="md:mb-1">
+                                  <label class="block mb-2 text-sm font-bold text-gray-700" for="coursecode">
+                                      Coursecode
+                                  </label>
+                                  <input class="px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="course_code" type="text" placeholder="BSCS" name="course_code" value="{{ course_code }}" required />
+                              </div>
+                              
+                              <div class="my-4 text-center">
+                                  <button class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit">Edit Student</button>
+                              </div>
+                              
+                              
+                              
                             </form>
                         </div>
                     </div>

@@ -116,3 +116,8 @@ p {
     align-items: center;
     justify-content: space-around;
 }
+
+.content {
+    overflow: auto;
+    height: 100vh; /* This makes the div take up the full viewport height */
+}

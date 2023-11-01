@@ -27,8 +27,9 @@ def addstudents():
             add_students(id, firstname, lastname, coursecode, yearlevel, gender)
             flash("Student added successfully.", "success")
             return redirect('/students/')  # Redirect after adding a student
-
-    return render_template('addstudent.html')
+    
+    courses = get_course_codes()
+    return render_template('addstudent.html', courses=courses)
 
 
 
