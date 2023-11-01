@@ -11,12 +11,20 @@ def student_table():
     cursor.close()
     return students
 
+def student_exists(student_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT id FROM students WHERE id = %s", (student_id,))
+    result = cursor.fetchone()
+    cursor.close()
+    return result is not None
+
 
 def add_students(id, firstname,lastname, coursecode, yearlevel, gender):
     cursor = mysql.connection.cursor()
     cursor.execute("INSERT INTO students (id, firstname, lastname, coursecode, yearlevel, gender) VALUES (%s, %s, %s, %s, %s, %s)", (id, firstname,lastname, coursecode, yearlevel, gender))
     mysql.connection.commit()
     cursor.close()    
+
 
 def find_students(searchstudent):
     cursor = mysql.connection.cursor(dictionary=True)

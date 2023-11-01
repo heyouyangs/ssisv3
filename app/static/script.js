@@ -130,37 +130,3 @@ function deleteCourses(button) {
         });
     }
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    var editStudentModal = document.getElementById('editStudentModal');
-    var openEditStudentModalButton = document.getElementById('openEditStudentModalButton');
-    var closeEditStudentModal = document.getElementById('closeEditStudentModal');
-  
-    openEditStudentModalButton.onclick = function () {
-      editStudentModal.style.display = 'block';
-    };
-  
-    closeEditStudentModal.onclick = function () {
-      editStudentModal.style.display = 'none';
-    };
-  
-    window.onclick = function (event) {
-      if (event.target === editStudentModal) {
-        editStudentModal.style.display = 'none';
-      }
-    };
-  });
-  
-  function editStudent(id, firstname, lastname, coursecode, yearlevel, gender) {
-    document.getElementById("student_id").value = id;
-    document.getElementById("firstname").value = firstname;
-    document.getElementById("lastname").value = lastname;
-    document.getElementById("coursecode").value = coursecode;
-    document.getElementById("yearlevel").value = yearlevel;
-    document.getElementById("gender").value = gender;
-
-    // Change the form action and button text to "Edit Student"
-    document.getElementById("add-student-form").setAttribute("action", "/student/edit");
-    document.querySelector("button[type=submit]").textContent = "Edit Student";
-}
-  

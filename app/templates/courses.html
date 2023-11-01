@@ -54,12 +54,12 @@
               <button type="submit" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Edit</button>
             </form>
           </td>
-          <td><button type="button" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover-bg-blue-700 focus:outline-none focus:shadow-outline"
+          <td>
+            <button type="button" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover-bg-blue-700 focus:outline-none focus:shadow-outline"
             id="delete_course" coursecode="{{ course.coursecode }}" csrf-token="{{ csrf_token() }}" onclick="deleteCourses(this)">
-               Delete
-          </button>
-
-          </td>
+                Delete
+            </button>
+        </td>
         {% endfor %}    
         </tr>
       </tbody>

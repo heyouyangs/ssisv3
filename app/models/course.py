@@ -40,8 +40,13 @@ def get_colleges_codes():
     return course_code
 
 def update_course(course_code, course_name, college_code):
-    cursor = mysql.connection.cursor()
-    update_query = "UPDATE courses SET coursename = %s, collegecode = %s WHERE coursecode = %s"
-    cursor.execute(update_query, (course_name, college_code, course_code))
-    mysql.connection.commit()
-    cursor.close()
+    try:
+        cursor = mysql.connection.cursor()
+        update_query = "UPDATE courses SET coursename = %s, collegecode = %s WHERE coursecode = %s"
+        cursor.execute(update_query, (course_name, college_code, course_code))
+        mysql.connection.commit()
+        print(f"Updated course with course_code: {course_code}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cursor.close()
