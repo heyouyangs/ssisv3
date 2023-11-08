@@ -23,16 +23,20 @@ def add_students(id, firstname,lastname, coursecode, yearlevel, gender):
     cursor = mysql.connection.cursor()
     cursor.execute("INSERT INTO students (id, firstname, lastname, coursecode, yearlevel, gender) VALUES (%s, %s, %s, %s, %s, %s)", (id, firstname,lastname, coursecode, yearlevel, gender))
     mysql.connection.commit()
-    cursor.close()    
+    cursor.close()  
 
-
-def find_students(searchstudent):
+def find_students(search_query):
     cursor = mysql.connection.cursor(dictionary=True)
-    search_query = "%" + searchstudent + "%"
-    cursor.execute("SELECT * FROM students WHERE id LIKE %s OR firstname LIKE %s OR lastname LIKE %s OR coursecode LIKE %s OR yearlevel LIKE %s OR gender LIKE %s", (search_query, search_query, search_query, search_query, search_query, search_query))
+    search_query = "%" + search_query + "%"
+    
+    # SQL query to search for students by name, college code, and other details
+    query = "SELECT * FROM students WHERE (id LIKE %s OR firstname LIKE %s OR lastname LIKE %s OR coursecode IN (SELECT coursecode FROM courses WHERE collegecode LIKE %s) OR yearlevel = %s OR gender LIKE %s)"
+
+    cursor.execute(query, (search_query, search_query, search_query, search_query, search_query, search_query))
     students = cursor.fetchall()
     cursor.close()
-    return students
+    return students  
+
 
 def delete_student(student_id):
     cursor = mysql.connection.cursor()
@@ -69,3 +73,4 @@ def update_student(student_id, first_name, last_name, year_level, course_code, g
     cursor.execute(update_query, (first_name, last_name, course_code, year_level, gender, student_id))
     mysql.connection.commit()
     cursor.close()
+

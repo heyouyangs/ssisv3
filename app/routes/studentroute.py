@@ -43,6 +43,10 @@ def search_students():
     return render_template('student.html', students=students)
 
 
+
+
+
+
     
 @student_bp.route('/students/delete/<string:id>', methods=['DELETE'])
 def remove_college(id):

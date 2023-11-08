@@ -1,6 +1,11 @@
 from flask import *
 from app.models.course import *
 from flask_wtf import *
+from flask import Flask, render_template, request, send_from_directory
+
+from app.models.student import get_course_codes
+
+
 
 course_bp = Blueprint('course', __name__)
 
@@ -17,13 +22,26 @@ def addcourses():
 
 @course_bp.route('/addcourse/', methods=['GET', 'POST'])
 def addcourse():
-    if request.method == 'POST':
-        coursecode = request.form['coursecode']
-        coursename = request.form['coursename']
-        collegecode = request.form['collegecode']
-        add_courses(coursecode, coursename, collegecode)
-        return redirect('/courses/') 
-    return render_template('addcourses.html')
+   if request.method == 'POST':
+       coursecode = request.form['coursecode']
+       coursename = request.form['coursename']
+       collegecode = request.form['collegecode']
+       
+       # Check if the college code exists
+       if not collegecode_exists(collegecode):
+           flash("College with this Collegecode does not exist.", "error")
+       else:
+           # College code exists, check if the course already exists
+           if coursecode_exists(coursecode):
+               flash("Course with this Coursecode already exists.", "error")
+           else:
+               # Course doesn't exist, add them to the database
+               add_courses(coursecode, coursename, collegecode)
+               return redirect('/courses/')
+   
+   courses = get_course_codes()
+   return render_template('addcourses.html', colleges=collegecode)
+   
 
 @course_bp.route('/courses/search', methods=['GET', 'POST'])
 def search_courses():
@@ -52,5 +70,7 @@ def edit_course():
     course_code = request.args.get('course_code')
     course_name = request.args.get('course_name')
     college_code = request.args.get('college_code')
-    return render_template('editcourses.html', course_code=course_code, course_name=course_name, college_code=college_code)
+
+   
+    return render_template('editcourses.html', course_code=course_code, course_name=course_name, colleges=college_code)
 

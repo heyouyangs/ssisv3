@@ -10,11 +10,26 @@ def course_table():
     cursor.close()
     return courses
 
+def coursecode_exists(course_code):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT coursecode FROM courses WHERE coursecode = %s", (course_code,))
+    result = cursor.fetchone()
+    cursor.close()
+    return result is not None
+
+
 def add_courses(coursecode, coursename, collegecode):
     cursor = mysql.connection.cursor()
     cursor.execute("INSERT INTO courses (coursecode, coursename, collegecode) VALUES (%s, %s, %s)", (coursecode, coursename, collegecode))
     mysql.connection.commit()
     cursor.close()
+
+def collegecode_exists(college_code):
+   cursor = mysql.connection.cursor()
+   cursor.execute("SELECT collegecode FROM colleges WHERE collegecode = %s", (college_code,))
+   result = cursor.fetchone()
+   cursor.close()
+   return result is not None
 
 def find_courses(searchcourses):
     cursor = mysql.connection.cursor(dictionary=True)
@@ -31,13 +46,6 @@ def delete_course(course_code):
     mysql.connection.commit()
     cursor.close()
 
-def get_colleges_codes():
-    cursor = mysql.connection.cursor(dictionary=True)
-    query = "SELECT collegecode FROM colleges"
-    cursor.execute(query)
-    course_code = cursor.fetchall()
-    cursor.close()
-    return course_code
 
 def update_course(course_code, course_name, college_code):
     try:
@@ -50,3 +58,4 @@ def update_course(course_code, course_name, college_code):
         print(f"An error occurred: {e}")
     finally:
         cursor.close()
+

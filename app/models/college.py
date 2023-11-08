@@ -16,6 +16,13 @@ def add_college(collegecode, collegename):
     mysql.connection.commit()
     cursor.close()
 
+def collegecode_exists(collegecode):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT collegecode FROM colleges WHERE collegecode = %s", (collegecode,))
+    result = cursor.fetchone()
+    cursor.close()
+    return result is not None
+
 
 def find_college(searchcollege):
     cursor = mysql.connection.cursor(dictionary=True)
