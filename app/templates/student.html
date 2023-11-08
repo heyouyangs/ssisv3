@@ -23,7 +23,7 @@
 </a>
 {% endblock %}
 {% block content %}
-<main class= "overflow-y-auto h-screen scroll-smooth w-full p-10 mt-20 self-center mx-auto text-teal-500 scrollbar-hide scrollbar-hide-webkit">
+<main class= "h-screen scroll-smooth w-full p-10 mt-20 self-center mx-auto text-black text-8xl  scrollbar-hide-webkit">
     
     <table class="min-w-full text-left text-sm font-light">
         <thead class="border-b font-medium dark:border-neutral-500">
@@ -32,7 +32,7 @@
                 <th class="whitespace-nowrap px-6 py-4">First Name</th>
                 <th class="whitespace-nowrap px-6 py-4">Last Name</th>
                 <th class="whitespace-nowrap px-6 py-4">Gender</th>
-                <th class="whitespace-nowrap px-6 py-4">Course</th>
+                <th class="whitespace-nowrap px-6 py-4">Course</th> 
                 <th class="whitespace-nowrap px-6 py-4">Year</th>
                 <th class="whitespace-nowrap px-6 py-4">Edit</th>
                 <th class="whitespace-nowrap px-6 py-4">Delete</th>
@@ -40,13 +40,13 @@
         </thead>
         <tbody id="rowContainer">  
         {% for student in students %}      
-            <tr>
-              <td>{{student.id}}</td>
-              <td>{{student.firstname}}</td>
-              <td>{{student.lastname}}</td>
-              <td>{{student.gender}}</td>
-              <td>{{student.coursecode}}</td>
-              <td>{{student.yearlevel}}</td>
+            <tr class="hover:bg-gray-200">
+              <td class="text-base font-semibold px-6 py-4">{{student.id}}</td>
+              <td class="text-base font-normal px-6 py-4">{{student.firstname}}</td>
+              <td class="text-base font-normal px-6 py-4">{{student.lastname}}</td>
+              <td class="text-base font-normal px-6 py-4">{{student.gender}}</td>
+              <td class="text-base font-normal px-6 py-4">{{student.coursecode}}</td>
+              <td class="text-base font-normal px-6 py-4">{{student.yearlevel}}</td>
               <td>
                 <form action="/editstudent" method="get">
                   <input type="hidden" name="student_id" value="{{ student.id }}">
@@ -58,13 +58,16 @@
                   <button type="submit" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Edit</button>
                 </form>
               </td>
-              <td><button type="button" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover-bg-blue-700 focus:outline-none focus:shadow-outline"
+              <td><button type="button" class="h-10 px-4 py-2 font-bold text-white bg-red-500 rounded-full hover-bg-red-700 focus:outline-none focus:shadow-outline"
                 id="delete_student" student-id="{{ student.id }}" csrf-token="{{ csrf_token() }}" onclick="deleteStudent(this)">
                    Delete
               </button>
     
             </tr>
+
         {% endfor %}         
         </tbody>
+
+        
       </table>
 {% endblock %}
