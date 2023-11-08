@@ -110,8 +110,8 @@ function deleteCourses(button) {
     console.log("Delete button clicked.");
     
     // Retrieve course code and CSRF token from data attributes
-    var course_code = button.getAttribute('data-course-code');
-    var csrfToken = button.getAttribute('data-csrf-token');
+    var course_code = button.getAttribute('coursecode'); // Change 'data-course-code' to 'coursecode'
+    var csrfToken = button.getAttribute('csrf-token');     // Change 'data-csrf-token' to 'csrf-token'
     
     if (confirm("Are you sure you want to delete this course?\nThis action cannot be undone.")) {
         fetch(`/courses/delete/${course_code}`, {
