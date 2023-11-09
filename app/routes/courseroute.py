@@ -15,32 +15,34 @@ def courses():
     courses = course_table()
     return render_template('courses.html',courses=courses)
 
-
-@course_bp.route('/addcourse/')
-def addcourses():
-    return render_template('addcourses.html')
-
 @course_bp.route('/addcourse/', methods=['GET', 'POST'])
 def addcourse():
-   if request.method == 'POST':
-       coursecode = request.form['coursecode']
-       coursename = request.form['coursename']
-       collegecode = request.form['collegecode']
-       
-       # Check if the college code exists
-       if not collegecode_exists(collegecode):
-           flash("College with this Collegecode does not exist.", "error")
-       else:
-           # College code exists, check if the course already exists
-           if coursecode_exists(coursecode):
-               flash("Course with this Coursecode already exists.", "error")
-           else:
-               # Course doesn't exist, add them to the database
-               add_courses(coursecode, coursename, collegecode)
-               return redirect('/courses/')
-   
-   courses = get_course_codes()
-   return render_template('addcourses.html', colleges=collegecode)
+    colleges = get_college_code()
+    print("Colleges:", colleges)  # Debug print statement 1
+
+    if request.method == 'POST':
+        coursecode = request.form['coursecode']
+        coursename = request.form['coursename']
+        collegecode = request.form['collegecode']
+        
+        print("Course Code:", coursecode)  # Debug print statement 2
+        print("Course Name:", coursename)  # Debug print statement 3
+        print("College Code:", collegecode)  # Debug print statement 4
+
+
+        # Check if the college code exists
+        if not collegecode_exists(collegecode):
+            flash("College with this Collegecode does not exist.", "error")
+        else:
+            # College code exists, check if the course already exists
+            if coursecode_exists(coursecode):
+                flash("Course with this Coursecode already exists.", "error")
+            else:
+                # Course doesn't exist, add them to the database
+                add_courses(coursecode, coursename, collegecode)
+                return redirect('/courses/')
+
+    return render_template('addcourses.html', colleges=colleges)
    
 
 @course_bp.route('/courses/search', methods=['GET', 'POST'])

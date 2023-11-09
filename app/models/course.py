@@ -18,11 +18,21 @@ def coursecode_exists(course_code):
     return result is not None
 
 
+
 def add_courses(coursecode, coursename, collegecode):
     cursor = mysql.connection.cursor()
     cursor.execute("INSERT INTO courses (coursecode, coursename, collegecode) VALUES (%s, %s, %s)", (coursecode, coursename, collegecode))
     mysql.connection.commit()
     cursor.close()
+
+def get_college_code():
+    cursor = mysql.connection.cursor(dictionary=True)
+    query = "SELECT collegecode FROM colleges"
+    cursor.execute(query)
+    colleges = cursor.fetchall()
+    cursor.close()
+    print(colleges)  # Debug print statement
+    return colleges
 
 def collegecode_exists(college_code):
    cursor = mysql.connection.cursor()
