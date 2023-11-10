@@ -95,14 +95,9 @@
                     <label class="block mb-2 text-sm font-bold text-gray-700" for="coursename">
                         Course Name
                     </label>
-                    <input
-                        class="px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"   
-                        id="course_name"
-                        type="text"
-                        placeholder="Course Name"
-                        name = "course_name"
-                        value="{{ course_name }}" required
-                    />
+                    <input class="px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" 
+                    id="coursename" type="text" placeholder="Course Name" name="course_name" value="{{ course_name }}" required />
+                    
                   </div>
                 </div>
                 <div class="mb-4 md:flex">
@@ -110,7 +105,7 @@
                       <label class="block mb-2 text-sm font-bold text-gray-700" for="collegecode">
                           College Code
                       </label>
-                      <select class="px-10 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="collegecode" name="collegecode" required>
+                      <select class="px-10 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="collegecode" name="college_code" required>
                           <option value="">Select a college</option>
                           {% for college in colleges %}
                               <option value="{{ college.collegecode }}" {% if college.collegecode == college_code %}selected{% endif %}>{{ college.collegecode }}</option>
