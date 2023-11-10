@@ -1,6 +1,7 @@
 from flask import *
 from app.models.student import *
 from flask_wtf import *
+import re
 
 student_bp = Blueprint('student', __name__)
 
@@ -13,6 +14,10 @@ def students():
 def addstudents():
     if request.method == 'POST':
         id = request.form['id']
+       # Check if the ID is in the correct format
+        if not re.match(r'\d{4}-\d{4}', id):
+           flash("Incorrect ID format. Please enter ID in the format YYYY-NNNN.", "error")
+           return render_template('addstudent.html', courses=get_course_codes())
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         coursecode = request.form['coursecode']
@@ -55,18 +60,23 @@ def remove_college(id):
         delete_student(id)
         return jsonify({'success': True})
     
-
+    
 @student_bp.route('/editstudent', methods=['GET', 'POST'])
 def edit_student():
     if request.method == 'POST':
         student_id = request.form.get('student_id')
         first_name = request.form.get('first_name').title()
         last_name = request.form.get('last_name').title()
-        year_level = request.form.get('year_level')
-        course_code = request.form.get('course_code').upper()
+        year_level = int(request.form.get('year_level'))  # Convert to integer
+        course_code = request.form.get('coursecode')
         gender = request.form.get('gender').capitalize()
-        update_student(student_id, first_name, last_name, year_level, course_code, gender)
-        return redirect('/students/') 
+
+        # Check if the course code is provided before updating
+        if course_code is not None:
+            edit_student_student(student_id, first_name, last_name, year_level, course_code, gender)
+
+        return redirect('/students/')
+
     student_id = request.args.get('student_id')
     first_name = request.args.get('first_name')
     last_name = request.args.get('last_name')
@@ -74,5 +84,5 @@ def edit_student():
     course_code = request.args.get('course_code')
     gender = request.args.get('gender')
     courses = get_course_codes()
-    return render_template('editstudents.html', student_id=student_id, first_name=first_name, last_name=last_name,  year_level=year_level, course_code=course_code, gender=gender, courses=courses)
 
+    return render_template('editstudents.html', student_id=student_id, first_name=first_name, last_name=last_name, year_level=year_level, course_code=course_code, gender=gender, courses=courses)

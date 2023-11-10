@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 
+
+
 document.addEventListener('DOMContentLoaded', function () {
     var getStarted = document.getElementById('AddStudentModal');
     var modal = document.getElementById('AddStudentModal');

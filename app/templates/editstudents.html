@@ -7,7 +7,7 @@
         <title>Student Information System</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <script defer src="script.js"></script>
+       
     </head>
 <body>
   
@@ -120,12 +120,14 @@
                               </div>
                               
                               <div class="md:mb-1">
-                                  <label class="block mb-2 text-sm font-bold text-gray-700" for="coursecode">
-                                      Coursecode
-                                  </label>
-                                  <input class="px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="course_code" type="text" placeholder="BSCS" name="course_code" value="{{ course_code }}" required />
-                              </div>
-                              
+                                <label class="block mb-2 text-sm font-bold text-gray-700" for="coursecode">Coursecode</label>
+                                <select class="px-10 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="coursecode" name="coursecode" required>
+                                    <option value="">Select a course</option>
+                                    {% for course in courses %}
+                                        <option value="{{ course.coursecode }}" {% if course.coursecode == course_code %}selected{% endif %}>{{ course.coursecode }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                               <div class="my-4 text-center">
                                   <button class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit">Edit Student</button>
                                   <a href="/students" class="h-10 px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline">Cancel</a>

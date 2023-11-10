@@ -48,7 +48,7 @@ def delete_student(student_id):
 def edit_student_student(student_id, first_name, last_name,  year_level, course_code, gender):
     cursor = mysql.connection.cursor()
     update_query = "UPDATE students SET firstname = %s, lastname = %s, coursecode = %s, yearlevel = %s, gender = %s WHERE id = %s"
-    cursor.execute(update_query, (first_name, last_name,  year_level, course_code, gender, student_id))
+    cursor.execute(update_query, (first_name, last_name,  course_code, year_level, gender, student_id))  # Swap course_code and year_level
     mysql.connection.commit()
     cursor.close()
 

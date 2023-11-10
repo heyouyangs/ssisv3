@@ -7,7 +7,7 @@
         <title>Student Information System</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <script defer src="/app/static/script.js"></script>
+       
       
     </head>
 <body>
@@ -110,14 +110,14 @@
                     <label class="block mb-2 text-sm font-bold text-gray-700" for="collegecode">
                         College Code
                     </label>
-                    <select  id="collegecode" name="collegecode" required>
-                        <option value="" disabled selected>Select College Code</option>
+                    <select class="px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="collegecode" name="collegecode" required>
+                        <option value="" disabled selected>--Select College Code--</option>
                         {% for college in colleges %}
                             <option value="{{ college.collegecode }}">{{ college.collegecode }}</option>
                         {% endfor %}
                     </select>
                 </div>
-            </div>
+             </div>
 							<div class="my-4 text-center">  
 								<button
 									class="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"

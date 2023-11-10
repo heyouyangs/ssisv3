@@ -1,5 +1,6 @@
 from flask_mysql_connector import MySQL
 
+
 mysql = MySQL()
 
 def college_table():
