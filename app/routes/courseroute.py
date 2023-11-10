@@ -73,6 +73,6 @@ def edit_course():
     course_name = request.args.get('course_name')
     college_code = request.args.get('college_code')
 
-   
-    return render_template('editcourses.html', course_code=course_code, course_name=course_name, colleges=college_code)
+    colleges = get_college_code()
+    return render_template('editcourses.html', course_code=course_code, course_name=course_name, colleges=colleges)
 
