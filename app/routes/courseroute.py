@@ -9,41 +9,39 @@ from app.models.student import get_course_codes
 
 course_bp = Blueprint('course', __name__)
 
-
 @course_bp.route('/courses/')
 def courses():
     courses = course_table()
-    return render_template('courses.html',courses=courses)
+    alert_message = request.args.get('alert_message')
+    return render_template('courses.html', courses=courses, alert_message=alert_message)
 
 @course_bp.route('/addcourse/', methods=['GET', 'POST'])
 def addcourse():
     colleges = get_college_code()
-    print("Colleges:", colleges)  # Debug print statement 1
+    alert_message = None  # Initialize alert_message to None
 
     if request.method == 'POST':
         coursecode = request.form['coursecode']
         coursename = request.form['coursename']
         collegecode = request.form['collegecode']
-        
-        print("Course Code:", coursecode)  # Debug print statement 2
-        print("Course Name:", coursename)  # Debug print statement 3
-        print("College Code:", collegecode)  # Debug print statement 4
-
 
         # Check if the college code exists
         if not collegecode_exists(collegecode):
-            flash("College with this Collegecode does not exist.", "error")
+            alert_message = "College with this Collegecode does not exist."
         else:
             # College code exists, check if the course already exists
             if coursecode_exists(coursecode):
-                flash("Course with this Coursecode already exists.", "error")
+                alert_message = "Course with this Coursecode already exists."
             else:
-                # Course doesn't exist, add them to the database
+                # Course doesn't exist, add it to the database
                 add_courses(coursecode, coursename, collegecode)
-                return redirect('/courses/')
+                alert_message = "Course added successfully."
+                # Redirect to the courses table (change 'courses_table' to the actual route)
+                return redirect(url_for('course.courses', alert_message=alert_message))
 
-    return render_template('addcourses.html', colleges=colleges)
-   
+    return render_template('addcourses.html', colleges=colleges, alert_message=alert_message)
+
+
 
 @course_bp.route('/courses/search', methods=['GET', 'POST'])
 def search_courses():

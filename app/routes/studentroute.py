@@ -12,12 +12,15 @@ def students():
 
 @student_bp.route('/addstudent/', methods=['GET', 'POST'])
 def addstudents():
+    alert_message = None  # Initialize alert_message to None
+
     if request.method == 'POST':
         id = request.form['id']
-       # Check if the ID is in the correct format
+        # Check if the ID is in the correct format
         if not re.match(r'\d{4}-\d{4}', id):
-           flash("Incorrect ID format. Please enter ID in the format YYYY-NNNN.", "error")
-           return render_template('addstudent.html', courses=get_course_codes())
+            alert_message = "Incorrect ID format. Please enter ID in the format YYYY-NNNN."
+            return render_template('addstudent.html', courses=get_course_codes(), alert_message=alert_message)
+            
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         coursecode = request.form['coursecode']
@@ -26,15 +29,15 @@ def addstudents():
 
         # Check if the student already exists
         if student_exists(id):
-            flash("Student with this ID already exists.", "error")
+            alert_message = "Student with this ID already exists."
+            return render_template('addstudent.html', courses=get_course_codes(), alert_message=alert_message)
         else:
             # Student doesn't exist, add them to the database
             add_students(id, firstname, lastname, coursecode, yearlevel, gender)
-            flash("Student added successfully.", "success")
-            return redirect('/students/')  # Redirect after adding a student
-    
+            alert_message = "Student added successfully."
+
     courses = get_course_codes()
-    return render_template('addstudent.html', courses=courses)
+    return render_template('addstudent.html', courses=courses, alert_message=alert_message)
 
 
 
@@ -63,6 +66,8 @@ def remove_college(id):
     
 @student_bp.route('/editstudent', methods=['GET', 'POST'])
 def edit_student():
+    alert_message = None  # Initialize alert_message to None
+
     if request.method == 'POST':
         student_id = request.form.get('student_id')
         first_name = request.form.get('first_name').title()
@@ -74,8 +79,8 @@ def edit_student():
         # Check if the course code is provided before updating
         if course_code is not None:
             edit_student_student(student_id, first_name, last_name, year_level, course_code, gender)
-
-        return redirect('/students/')
+            alert_message = "Student edited successfully."
+            return redirect(url_for('student.students', alert_message=alert_message))
 
     student_id = request.args.get('student_id')
     first_name = request.args.get('first_name')
@@ -85,4 +90,4 @@ def edit_student():
     gender = request.args.get('gender')
     courses = get_course_codes()
 
-    return render_template('editstudents.html', student_id=student_id, first_name=first_name, last_name=last_name, year_level=year_level, course_code=course_code, gender=gender, courses=courses)
+    return render_template('editstudents.html', student_id=student_id, first_name=first_name, last_name=last_name, year_level=year_level, course_code=course_code, gender=gender, courses=courses, alert_message=alert_message)

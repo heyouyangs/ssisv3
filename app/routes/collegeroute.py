@@ -11,20 +11,22 @@ def colleges():
 
 @college_bp.route('/addcollege/', methods=['GET', 'POST'])
 def addcollege():
+    alert_message = None  # Initialize alert_message to None
+
     if request.method == 'POST':
         collegecode = request.form['collegecode']
         collegename = request.form['collegename']
         
         # Check if the college already exists
         if collegecode_exists(collegecode):
-            flash("College with this Collegecode already exists.", "error")
+            alert_message = "College with this Collegecode already exists."
         else:
             # College doesn't exist, add it to the database
             add_college(collegecode, collegename)
-            flash("College added successfully.", "success")
+            alert_message = "College added successfully."
             return redirect('/colleges/')
 
-    return render_template('addcolleges.html')
+    return render_template('addcolleges.html', alert_message=alert_message)
 
 @college_bp.route('/colleges/search', methods=['GET', 'POST'])
 def search_college():

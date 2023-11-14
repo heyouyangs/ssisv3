@@ -9,6 +9,15 @@
         
     </head>
 <body>
+
+
+        {% if alert_message %}
+        <script>
+            alert("{{ alert_message }}");
+        </script>
+      {% endif %}
+
+      
   
       </style>
       <nav class="flex items-center bg-gray-800 p-3 flex-wrap">
