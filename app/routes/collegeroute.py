@@ -1,6 +1,8 @@
 from flask import *
 from app.models.college import *
 from flask_wtf import *
+from flask import flash
+
 
 college_bp = Blueprint('college', __name__)
 
@@ -8,6 +10,8 @@ college_bp = Blueprint('college', __name__)
 def colleges():
     colleges = college_table()
     return render_template('colleges.html', colleges=colleges)
+
+from flask import redirect, url_for, flash
 
 @college_bp.route('/addcollege/', methods=['GET', 'POST'])
 def addcollege():
@@ -19,14 +23,15 @@ def addcollege():
         
         # Check if the college already exists
         if collegecode_exists(collegecode):
-            alert_message = "College with this Collegecode already exists."
+            flash("College with this Collegecode already exists.", 'error')
         else:
             # College doesn't exist, add it to the database
             add_college(collegecode, collegename)
-            alert_message = "College added successfully."
+            flash("College added successfully!", 'success')
             return redirect('/colleges/')
 
     return render_template('addcolleges.html', alert_message=alert_message)
+
 
 @college_bp.route('/colleges/search', methods=['GET', 'POST'])
 def search_college():

@@ -2,6 +2,7 @@ from flask import *
 from app.models.student import *
 from flask_wtf import *
 import re
+from flask import flash
 
 student_bp = Blueprint('student', __name__)
 
@@ -18,23 +19,23 @@ def addstudents():
         id = request.form['id']
         # Check if the ID is in the correct format
         if not re.match(r'\d{4}-\d{4}', id):
-            alert_message = "Incorrect ID format. Please enter ID in the format YYYY-NNNN."
-            return render_template('addstudent.html', courses=get_course_codes(), alert_message=alert_message)
-            
+            flash("Incorrect ID format. Please enter ID in the format YYYY-NNNN.", 'error')
+            return render_template('addstudent.html', courses=get_course_codes())
+                
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         coursecode = request.form['coursecode']
         yearlevel = request.form['yearlevel']
         gender = request.form['gender']
-
         # Check if the student already exists
         if student_exists(id):
-            alert_message = "Student with this ID already exists."
-            return render_template('addstudent.html', courses=get_course_codes(), alert_message=alert_message)
+            flash('Student with this ID Number already exists!', 'error')
         else:
             # Student doesn't exist, add them to the database
             add_students(id, firstname, lastname, coursecode, yearlevel, gender)
-            alert_message = "Student added successfully."
+            flash('Student added successfully!', 'success')
+            # Redirect to the students table (change 'students_table' to the actual route)
+            return redirect(url_for('student.students'))
 
     courses = get_course_codes()
     return render_template('addstudent.html', courses=courses, alert_message=alert_message)
@@ -63,11 +64,10 @@ def remove_college(id):
         delete_student(id)
         return jsonify({'success': True})
     
-    
+from flask import redirect, url_for, flash
+
 @student_bp.route('/editstudent', methods=['GET', 'POST'])
 def edit_student():
-    alert_message = None  # Initialize alert_message to None
-
     if request.method == 'POST':
         student_id = request.form.get('student_id')
         first_name = request.form.get('first_name').title()
@@ -79,8 +79,8 @@ def edit_student():
         # Check if the course code is provided before updating
         if course_code is not None:
             edit_student_student(student_id, first_name, last_name, year_level, course_code, gender)
-            alert_message = "Student edited successfully."
-            return redirect(url_for('student.students', alert_message=alert_message))
+            flash('Student edited successfully!', 'success')
+            return redirect(url_for('student.students'))  # Redirect to the students page after successful edit
 
     student_id = request.args.get('student_id')
     first_name = request.args.get('first_name')
@@ -90,4 +90,4 @@ def edit_student():
     gender = request.args.get('gender')
     courses = get_course_codes()
 
-    return render_template('editstudents.html', student_id=student_id, first_name=first_name, last_name=last_name, year_level=year_level, course_code=course_code, gender=gender, courses=courses, alert_message=alert_message)
+    return render_template('editstudents.html', student_id=student_id, first_name=first_name, last_name=last_name, year_level=year_level, course_code=course_code, gender=gender, courses=courses)

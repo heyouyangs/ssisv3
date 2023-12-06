@@ -12,19 +12,16 @@
 <body>
 
 
-  {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-      {% for category, message in messages %}
-          {% if category == 'success' %}
-              <script>
-                  $(document).ready(function() {
-                      swal("Success", "{{ message }}", "success");
-                  });
-              </script>
-          {% endif %}
-      {% endfor %}
-  {% endif %}
-{% endwith %}
+    {% if alert_message %}
+    <script>
+        alert("{{ alert_message|safe }}");
+        window.location.href = "/students";
+    </script>
+    {% endif %}
+
+
+ 
+
       </style>
       <nav class="flex items-center bg-gray-800 p-3 flex-wrap">
             <a href="/" class="px-4 mr-4 inline-flex items-center">
@@ -68,6 +65,20 @@
               </div>
             </div>
           </nav>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div class="container mx-auto">
+                {% for category, message in messages %}
+                  <div class="{{ 'bg-red-500 text-white' if category == 'error' else 'bg-green-500 text-white' }} px-10 py-3 mb-3 rounded flex justify-between items-center" role="alert">
+                    <span>{{ message }}</span>
+                    <button type="button" class="text-white hover:text-gray-300 focus:outline-none focus:shadow-outline" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
 
           <body class="font-mono bg-gray-400">
             <!-- Container -->
@@ -150,6 +161,7 @@
                               
                               
                             </form>
+                           
                         </div>
                     </div>
                 </div>

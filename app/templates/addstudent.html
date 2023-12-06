@@ -8,62 +8,71 @@
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
        
     </head>
-<body>
 
-              {% if alert_message %}
-              <script>
-                  alert("{{ alert_message }}");
-              </script>
-            {% endif %}
-
-              
-      </style>
-      <nav class="flex items-center bg-gray-800 p-3 flex-wrap">
-            <a href="/" class="px-4 mr-4 inline-flex items-center">
-              
-              <span class="text-xl text-white font-bold uppercase tracking-wide"
-               >Students Information System</span
-              >
-            </a>
-            <button
-              class="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler"
-              data-target="#navigation"
-            >
-              <i class="material-icons">menu</i>
-            </button>
-            <div
-              class="hidden top-navbar w-full lg:inline-flex lg:flex-grow lg:w-auto"
-              id="navigation"
-            >
-              <div
-                class="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto"
-              >
-
-                <a
-                  href="/students"
-                  class="lg:inline-flex lg:w-auto w-full px-4 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
-                >
-                  <span>Students</span>
-                </a>
-                <a
-                  href="/courses"
-                  class="lg:inline-flex lg:w-auto w-full px-4 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
-                >
-                  <span>Courses</span>
-                </a>
-                <a
-                  href="/colleges"
-                  class="lg:inline-flex lg:w-auto w-full px-4 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
-                >
-                  <span>Colleges</span>
-            </a>
-              </div>
-            </div>
-          </nav>
-
-    <!--addstudent form-->
+    
+  
 
   <body class="font-mono bg-gray-400">
+
+    
+    <nav class="flex items-center bg-gray-800 p-3 flex-wrap">
+      <a href="/" class="px-4 mr-4 inline-flex items-center">
+        
+        <span class="text-xl text-white font-bold uppercase tracking-wide"
+         >Students Information System</span
+        >
+      </a>
+      <button
+        class="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler"
+        data-target="#navigation"
+      >
+        <i class="material-icons">menu</i>
+      </button>
+      <div
+        class="hidden top-navbar w-full lg:inline-flex lg:flex-grow lg:w-auto"
+        id="navigation"
+      >
+        <div
+          class="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto"
+        >
+
+          <a
+            href="/students"
+            class="lg:inline-flex lg:w-auto w-full px-4 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+          >
+            <span>Students</span>
+          </a>
+          <a
+            href="/courses"
+            class="lg:inline-flex lg:w-auto w-full px-4 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+          >
+            <span>Courses</span>
+          </a>
+          <a
+            href="/colleges"
+            class="lg:inline-flex lg:w-auto w-full px-4 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+          >
+            <span>Colleges</span>
+      </a>
+        </div>
+      </div>
+    </nav>
+
+<!--addstudent form-->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container mx-auto">
+      {% for category, message in messages %}
+        <div class="{{ 'bg-red-500 text-white' if category == 'error' else 'bg-green-500 text-white' }} px-10 py-3 mb-3 rounded flex justify-between items-center" role="alert">
+          <span>{{ message }}</span>
+          <button type="button" class="text-white hover:text-gray-300 focus:outline-none focus:shadow-outline" aria-label="Close" onclick="this.parentElement.style.display='none';">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 		<!-- Container -->
 		<div class="container mx-auto">
 			<div class="flex justify-center px-6 my-12">
@@ -167,29 +176,11 @@
                             
                           </div>
             </form>
-
-
-           
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              <ul class="flash-messages">
-              {% for category, message in messages %}
-                <li class="flash-message {{ category }}" id="flash-message">{{ message }}</li>
-              {% endfor %}
-              </ul>
-              <script>
-                setTimeout(function() {
-                  document.getElementById('flash-message').style.display = 'none';
-                }, 5000);
-              </script>
-            {% endif %}
-          {% endwith %}
+            
           </div>
         </div>
       </div>
     </div>
-
-
 
   </body>
   

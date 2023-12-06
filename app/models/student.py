@@ -65,7 +65,7 @@ def get_course_codes():
     course_code = cursor.fetchall()
     cursor.close()
     return course_code
-
+'''
 def update_student(student_id, first_name, last_name, year_level, course_code, gender):
     print(student_id, first_name, last_name, year_level, course_code, gender)
     cursor = mysql.connection.cursor()
@@ -74,3 +74,4 @@ def update_student(student_id, first_name, last_name, year_level, course_code, g
     mysql.connection.commit()
     cursor.close()
 
+'''

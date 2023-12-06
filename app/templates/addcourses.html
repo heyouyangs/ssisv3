@@ -12,12 +12,7 @@
       
     </head>
 <body>
-
-                {% if alert_message %}
-                <script>
-                    alert("{{ alert_message }}");
-                </script>
-              {% endif %}
+ 
 
   
       </style>
@@ -67,6 +62,21 @@
     
 
     <!--addstudent form-->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container mx-auto">
+        {% for category, message in messages %}
+          <div class="{{ 'bg-red-500 text-white' if category == 'error' else 'bg-green-500 text-white' }} px-10 py-3 mb-3 rounded flex justify-between items-center" role="alert">
+            <span>{{ message }}</span>
+            <button type="button" class="text-white hover:text-gray-300 focus:outline-none focus:shadow-outline" aria-label="Close" onclick="this.parentElement.style.display='none';">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
 
     <body class="font-mono bg-gray-400">
 		<!-- Container -->
@@ -137,20 +147,8 @@
 							</div>
 						</form>
                     
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              <ul class="flash-messages">
-              {% for category, message in messages %}
-                <li class="flash-message {{ category }}" id="flash-message">{{ message }}</li>
-              {% endfor %}
-              </ul>
-              <script>
-                setTimeout(function() {
-                  document.getElementById('flash-message').style.display = 'none';
-                }, 5000);
-              </script>
-            {% endif %}
-            {% endwith %}
+              
+         
 					</div>
 				</div>
 			</div>
