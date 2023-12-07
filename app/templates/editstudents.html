@@ -12,19 +12,16 @@
 <body>
 
 
-  {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-      {% for category, message in messages %}
-          {% if category == 'success' %}
-              <script>
-                  $(document).ready(function() {
-                      swal("Success", "{{ message }}", "success");
-                  });
-              </script>
-          {% endif %}
-      {% endfor %}
-  {% endif %}
-{% endwith %}
+    {% if alert_message %}
+    <script>
+        alert("{{ alert_message|safe }}");
+        window.location.href = "/students";
+    </script>
+    {% endif %}
+
+
+ 
+
       </style>
       <nav class="flex items-center bg-gray-800 p-3 flex-wrap">
             <a href="/" class="px-4 mr-4 inline-flex items-center">
@@ -68,6 +65,20 @@
               </div>
             </div>
           </nav>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div class="container mx-auto">
+                {% for category, message in messages %}
+                  <div class="{{ 'bg-red-500 text-white' if category == 'error' else 'bg-green-500 text-white' }} px-10 py-3 mb-3 rounded flex justify-between items-center" role="alert">
+                    <span>{{ message }}</span>
+                    <button type="button" class="text-white hover:text-gray-300 focus:outline-none focus:shadow-outline" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
 
           <body class="font-mono bg-gray-400">
             <!-- Container -->
@@ -83,10 +94,22 @@
                             <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded flex flex-col justify-center items-center" method="POST">
                                 <!-- Include your CSRF token for security (Flask-specific) -->
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                                <div id="student_image_container" class="mb-4">
+                                  <img id="student_info_image" src="{{ "https://res.cloudinary.com/dxsfyb8kj/image/upload/v1701792008/ssis/0d37e2266c3a6983fdeddbb4e2eafa87_tzglpn.jpg" }}" alt="{{ id }}" class="w-48 h-48 object-cover mx-auto rounded-full">
+                                </div>
+                                
+                                <!-- File Input and Upload Button -->
+                                <div class="form-group text-center space-y-2">
+                                  <input id="image_url" type="text" name="image_url" value="https://res.cloudinary.com/dxsfyb8kj/image/upload/v1701792008/ssis/0d37e2266c3a6983fdeddbb4e2eafa87_tzglpn.jpg" hidden>
+                                  <input type="file" id="file-input" accept="image/*" hidden >
+                                  <button id="file-button" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mx-auto mt-4">Upload Image</button>
+                                </div>
+
                                 <div class="mb-4 md:flex md:justify-between">
                                     <div class="mb-4 md:mr-2 md:mb-0">
                                         <label class="block mb-2 text-sm font-bold text-gray-700">
-                                            ID
+                                            Student ID
                                         </label>
                                         <input class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="student_id" name="student_id" value="{{student_id}}"  placeholder="ID Number" disabled required />
                                         <!-- Add a hidden input to pass the ID to the server -->
@@ -150,6 +173,57 @@
                               
                               
                             </form>
+                            
+            <script>
+              const fileInput = document.getElementById('file-input');
+              const fileButton = document.getElementById('file-button');
+              const imagePreview = document.getElementById('student_info_image');
+              const imageUrlInput = document.getElementById('image_url');
+              const imagePreviewContainer = document.getElementById('student_image_container')
+          
+              fileButton.addEventListener('click', () => {
+                  fileInput.click();
+              });
+          
+              fileInput.addEventListener('change', async () => {
+                  try {
+                      const formData = new FormData();
+                      formData.append("file", fileInput.files[0]);
+                      formData.append("csrf_token", "{{csrf_token()}}");
+          
+                      const response = await fetch("{{url_for('student.upload_to_cloudinary')}}", {
+                          method: 'POST',
+                          body: formData
+                      });
+          
+                      const data = await response.json();
+          
+                      if (data && data.is_success) {
+          
+                          const img = document.createElement("img");
+                          img.id = 'student_info_image';
+                          img.alt = "New Image Photo"
+                          img.src = data.url
+          
+                          imagePreviewContainer.innerHTML = '';
+                          imagePreviewContainer.appendChild(img);
+          
+                          imageUrlInput.value = data.url;
+                      } else {
+                          console.error("Upload failed:", data);
+                      }
+                  } catch (error) {
+                      console.error("An error occurred:", error);
+                  }
+              });
+          </script>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+                           
                         </div>
                     </div>
                 </div>
@@ -169,4 +243,3 @@
     });
   </script>
 </body>
-

@@ -19,9 +19,9 @@ def student_exists(student_id):
     return result is not None
 
 
-def add_students(id, firstname,lastname, coursecode, yearlevel, gender):
+def add_students(id, firstname,lastname, coursecode, yearlevel, gender, image_url):
     cursor = mysql.connection.cursor()
-    cursor.execute("INSERT INTO students (id, firstname, lastname, coursecode, yearlevel, gender) VALUES (%s, %s, %s, %s, %s, %s)", (id, firstname,lastname, coursecode, yearlevel, gender))
+    cursor.execute("INSERT INTO students (id, firstname, lastname, coursecode, yearlevel, gender, image_url) VALUES (%s, %s, %s, %s, %s, %s, %s)", (id, firstname,lastname, coursecode, yearlevel, gender, image_url))
     mysql.connection.commit()
     cursor.close()  
 
@@ -45,10 +45,10 @@ def delete_student(student_id):
     cursor.close()
 
 
-def edit_student_student(student_id, first_name, last_name,  year_level, course_code, gender):
+def edit_student_student(student_id, first_name, last_name,  year_level, course_code, gender, image_url):
     cursor = mysql.connection.cursor()
-    update_query = "UPDATE students SET firstname = %s, lastname = %s, coursecode = %s, yearlevel = %s, gender = %s WHERE id = %s"
-    cursor.execute(update_query, (first_name, last_name,  course_code, year_level, gender, student_id))  # Swap course_code and year_level
+    update_query = "UPDATE students SET firstname = %s, lastname = %s, coursecode = %s, yearlevel = %s, gender = %s, image_url= %s  WHERE id = %s"
+    cursor.execute(update_query, (first_name, last_name,  course_code, year_level, gender,image_url, student_id))  # Swap course_code and year_level
     mysql.connection.commit()
     cursor.close()
 
@@ -66,11 +66,11 @@ def get_course_codes():
     cursor.close()
     return course_code
 
-def update_student(student_id, first_name, last_name, year_level, course_code, gender):
-    print(student_id, first_name, last_name, year_level, course_code, gender)
+def update_student(student_id, first_name, last_name, year_level, course_code, gender, image_url):
+    print(student_id, first_name, last_name, year_level, course_code, gender, image_url)
     cursor = mysql.connection.cursor()
-    update_query = "UPDATE students SET firstname = %s, lastname = %s, coursecode = %s, yearlevel = %s, gender = %s WHERE id = %s"
-    cursor.execute(update_query, (first_name, last_name, course_code, year_level, gender, student_id))
+    update_query = "UPDATE students SET firstname = %s, lastname = %s, coursecode = %s, yearlevel = %s, gender = %s, image_url= %s WHERE id = %s"
+    cursor.execute(update_query, (first_name, last_name, course_code, year_level, gender,image_url, student_id))
     mysql.connection.commit()
     cursor.close()
 

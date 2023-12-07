@@ -23,11 +23,12 @@
 </a>
 {% endblock %}
 {% block content %}
-<main class= "h-screen scroll-smooth w-full p-10 mt-20 self-center mx-auto text-black text-8xl  scrollbar-hide-webkit">
-    
+
+<main class= "h-screen scroll-smooth w-full p-10 self-center mx-auto text-black text-8xl  scrollbar-hide-webkit">
     <table class="min-w-full text-left text-sm font-light">
-        <thead class="border-b font-medium dark:border-neutral-500">
+        <thead class="border-b font-medium dark:border-neutral-500 sticky top-0 bg-white">
             <tr class="border-b transition duration-300 ease-in-out  dark:border-teal-500">
+                <th class="whitespace-nowrap px-6 py-4 font-medium">Profile</th>
                 <th class="whitespace-nowrap px-6 py-4 font-medium">ID</th>
                 <th class="whitespace-nowrap px-6 py-4">First Name</th>
                 <th class="whitespace-nowrap px-6 py-4">Last Name</th>
@@ -41,6 +42,11 @@
         <tbody id="rowContainer">  
         {% for student in students %}      
             <tr class="hover:bg-gray-200">
+              <td>
+                <div class="w-14 h-14 rounded-full overflow-hidden">
+                    <img id="student_image" src="{{ student.image_url or 'https://res.cloudinary.com/dxsfyb8kj/image/upload/v1701792008/ssis/0d37e2266c3a6983fdeddbb4e2eafa87_tzglpn.jpg' }}" alt="{{ student.id }}" class="w-full h-full object-cover">
+                </div>
+              </td>
               <td class="text-base font-semibold px-6 py-4">{{student.id}}</td>
               <td class="text-base font-normal px-6 py-4">{{student.firstname}}</td>
               <td class="text-base font-normal px-6 py-4">{{student.lastname}}</td>
