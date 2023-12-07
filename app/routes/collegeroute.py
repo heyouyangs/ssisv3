@@ -46,6 +46,7 @@ def search_college():
 def remove_college(college_code):
     if request.method == 'DELETE':
         delete_college(college_code)
+        flash('College deleted successfully!', 'success')
         return jsonify({'success': True})
 
 @college_bp.route('/editcollege', methods=['GET', 'POST'])

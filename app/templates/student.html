@@ -35,6 +35,7 @@
                 <th class="whitespace-nowrap px-6 py-4">Gender</th>
                 <th class="whitespace-nowrap px-6 py-4">Course</th> 
                 <th class="whitespace-nowrap px-6 py-4">Year</th>
+                <th class="whitespace-nowrap px-6 py-4">College</th>
                 <th class="whitespace-nowrap px-6 py-4">Edit</th>
                 <th class="whitespace-nowrap px-6 py-4">Delete</th>
               </tr>
@@ -53,6 +54,8 @@
               <td class="text-base font-normal px-6 py-4">{{student.gender}}</td>
               <td class="text-base font-normal px-6 py-4">{{student.coursecode}}</td>
               <td class="text-base font-normal px-6 py-4">{{student.yearlevel}}</td>
+              <td class="text-base font-normal px-6 py-4">{{student.college_info}}</td>
+             
               <td>
                 <form action="/editstudent" method="get">
                   <input type="hidden" name="student_id" value="{{ student.id }}">
@@ -61,6 +64,7 @@
                   <input type="hidden" name="course_code" value="{{ student.coursecode }}">
                   <input type="hidden" name="year_level" value="{{ student.yearlevel }}">
                   <input type="hidden" name="gender" value="{{ student.gender }}">
+                  <input type="hidden" name="colleges" value="{{ student.college_info }}">
                   <button type="submit" class="h-10 px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline">Edit</button>
                 </form>
               </td>

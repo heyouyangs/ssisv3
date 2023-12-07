@@ -103,13 +103,14 @@
                                 <div class="form-group text-center space-y-2">
                                   <input id="image_url" type="text" name="image_url" value="https://res.cloudinary.com/djhcfxw9q/image/upload/v1701936979/ssisV3/bkpqhvcsa1c3tuamc0zm.jpg" hidden>
                                   <input type="file" id="file-input" accept="image/*" hidden >
+                                  <p class="block mb-2 text-sm font-bold text-gray-700"> Accepted Image Type: JPG, JPEG, PNG; Maximum Size: 1MB</p>
                                   <button id="file-button" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mx-auto mt-4">Upload Image</button>
                                 </div>
 
                                 <div class="mb-4 md:flex md:justify-between">
                                     <div class="mb-4 md:mr-2 md:mb-0">
                                         <label class="block mb-2 text-sm font-bold text-gray-700">
-                                            Student ID
+                                            Student ID  
                                         </label>
                                         <input class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="student_id" name="student_id" value="{{student_id}}"  placeholder="ID Number" disabled required />
                                         <!-- Add a hidden input to pass the ID to the server -->
@@ -174,49 +175,64 @@
                               
                             </form>
                             
-            <script>
-              const fileInput = document.getElementById('file-input');
-              const fileButton = document.getElementById('file-button');
-              const imagePreview = document.getElementById('student_info_image');
-              const imageUrlInput = document.getElementById('image_url');
-              const imagePreviewContainer = document.getElementById('student_image_container')
-          
-              fileButton.addEventListener('click', () => {
-                  fileInput.click();
-              });
-          
-              fileInput.addEventListener('change', async () => {
-                  try {
-                      const formData = new FormData();
-                      formData.append("file", fileInput.files[0]);
-                      formData.append("csrf_token", "{{csrf_token()}}");
-          
-                      const response = await fetch("{{url_for('student.upload_to_cloudinary')}}", {
-                          method: 'POST',
-                          body: formData
-                      });
-          
-                      const data = await response.json();
-          
-                      if (data && data.is_success) {
-          
-                          const img = document.createElement("img");
-                          img.id = 'student_info_image';
-                          img.alt = "New Image Photo"
-                          img.src = data.url
-          
-                          imagePreviewContainer.innerHTML = '';
-                          imagePreviewContainer.appendChild(img);
-          
-                          imageUrlInput.value = data.url;
-                      } else {
-                          console.error("Upload failed:", data);
-                      }
-                  } catch (error) {
-                      console.error("An error occurred:", error);
-                  }
-              });
-          </script>
+                            <script>
+                              const fileInput = document.getElementById('file-input');
+                              const fileButton = document.getElementById('file-button');
+                              const imagePreview = document.getElementById('student_info_image');
+                              const imageUrlInput = document.getElementById('image_url');
+                              const imagePreviewContainer = document.getElementById('student_image_container')
+                              const maxSize = 1024 * 1024; // 1MB
+                      
+                              fileButton.addEventListener('click', () => {
+                                  fileInput.click();
+                              });
+                          
+                              fileInput.addEventListener('change', async () => {
+                                  try {
+                                      const selectedFile = fileInput.files[0];
+                          
+                                      // Check file size
+                                      if (selectedFile.size > maxSize) {
+                                          alert('File size exceeds 1MB. Please choose a smaller file.');
+                                          return;
+                                      }
+                          
+                                      // Check file type
+                                      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                                      if (!allowedTypes.includes(selectedFile.type)) {
+                                          alert('Invalid file type. Please choose a JPG, JPEG, or PNG file.');
+                                          return;
+                                      }
+                          
+                                      const formData = new FormData();
+                                      formData.append("file", selectedFile);
+                                      formData.append("csrf_token", "{{csrf_token()}}");
+                          
+                                      const response = await fetch("{{url_for('student.upload_to_cloudinary')}}", {
+                                          method: 'POST',
+                                          body: formData
+                                      });
+                          
+                                      const data = await response.json();
+                          
+                                      if (data && data.is_success) {
+                                          const img = document.createElement("img");
+                                          img.id = 'student_info_image';
+                                          img.alt = "New Image Photo";
+                                          img.src = data.url;
+                          
+                                          imagePreviewContainer.innerHTML = '';
+                                          imagePreviewContainer.appendChild(img);
+                          
+                                          imageUrlInput.value = data.url;
+                                      } else {
+                                          console.error("Upload failed:", data);
+                                      }
+                                  } catch (error) {
+                                      console.error("An error occurred:", error);
+                                  }
+                              });
+                          </script>
             
           </div>
         </div>

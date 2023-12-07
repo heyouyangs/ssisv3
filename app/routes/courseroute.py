@@ -60,6 +60,7 @@ def search_courses():
 def remove_course(course_code):
     if request.method == 'DELETE':
         delete_course(course_code)
+        flash('Courses deleted successfully!', 'success')
         return jsonify({'success': True})
 
 from flask import redirect, url_for, flash

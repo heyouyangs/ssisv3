@@ -47,15 +47,17 @@ def addstudents():
 
 
 
-@student_bp.route('/students/search', methods=['GET', 'POST'])
+@student_bp.route('/students/search', methods=['POST'])
 def search_students():
     students = []
     if request.method == 'POST':
         search_query = request.form.get('studentsearch')
-        if search_query:
-            students = find_students(search_query)
+        filter = request.form.get('filter')
+        if filter and search_query:
+            students = find_students(search_query, filter)
+        elif not filter and search_query:
+            students = find_students(search_query, 'all')
     return render_template('student.html', students=students)
-
 
 
 
@@ -67,6 +69,7 @@ def remove_college(id):
     if request.method == 'DELETE':
         print(id)
         delete_student(id)
+        flash('Student deleted successfully!', 'success')
         return jsonify({'success': True})
     
 from flask import redirect, url_for, flash
