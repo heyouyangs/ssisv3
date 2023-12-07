@@ -95,13 +95,13 @@
                                 <!-- Include your CSRF token for security (Flask-specific) -->
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-                                <div id="student_image_container" class="mb-4">
-                                  <img id="student_info_image" src="{{ "https://res.cloudinary.com/dxsfyb8kj/image/upload/v1701792008/ssis/0d37e2266c3a6983fdeddbb4e2eafa87_tzglpn.jpg" }}" alt="{{ id }}" class="w-48 h-48 object-cover mx-auto rounded-full">
+                                <div id="student_image_container" class="mb-4 w-48 h-48 object-cover mx-auto rounded-full">
+                                  <img id="student_info_image" src="{{ "https://res.cloudinary.com/djhcfxw9q/image/upload/v1701936979/ssisV3/bkpqhvcsa1c3tuamc0zm.jpg" }}" alt="{{ id }}" class="w-48 h-48 object-cover mx-auto rounded-full">
                                 </div>
                                 
                                 <!-- File Input and Upload Button -->
                                 <div class="form-group text-center space-y-2">
-                                  <input id="image_url" type="text" name="image_url" value="https://res.cloudinary.com/dxsfyb8kj/image/upload/v1701792008/ssis/0d37e2266c3a6983fdeddbb4e2eafa87_tzglpn.jpg" hidden>
+                                  <input id="image_url" type="text" name="image_url" value="https://res.cloudinary.com/djhcfxw9q/image/upload/v1701936979/ssisV3/bkpqhvcsa1c3tuamc0zm.jpg" hidden>
                                   <input type="file" id="file-input" accept="image/*" hidden >
                                   <button id="file-button" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mx-auto mt-4">Upload Image</button>
                                 </div>
